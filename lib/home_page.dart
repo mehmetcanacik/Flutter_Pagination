@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'core/model/user_model/user_model.dart';
 import 'core/service/user_service.dart';
 import 'core/widgets/user_widget.dart';
@@ -65,8 +63,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     return buildScaffold();
@@ -74,38 +70,38 @@ class _HomePageState extends State<HomePage> {
 
   Scaffold buildScaffold() {
     return Scaffold(
-    appBar: AppBar(),
-    body: buildBody(),
-  );
+      appBar: AppBar(),
+      body: buildBody(),
+    );
   }
 
   Column buildBody() {
     return Column(
-    children: <Widget>[
-      Expanded(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          controller: _controller,
-          child: buildListView(),
+      children: <Widget>[
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            controller: _controller,
+            child: buildListView(),
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
   }
 
   ListView buildListView() {
     return ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            if (index == userList.length) {
-              return const CupertinoActivityIndicator();
-            }
-            var user = userList[index];
-            return UserWidget(user: user);
-          },
-          itemCount: hasMoreData ? userList.length + 1 : userList.length,
-        );
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index) {
+        if (index == userList.length) {
+          return const CupertinoActivityIndicator();
+        }
+        var user = userList[index];
+        return UserWidget(user: user);
+      },
+      itemCount: hasMoreData ? userList.length + 1 : userList.length,
+    );
   }
 }
