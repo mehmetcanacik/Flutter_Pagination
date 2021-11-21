@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:user_pagination/model/user_model.dart';
+import 'package:user_pagination/core/service/user_service.dart';
+import 'core/model/user_model/user_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,12 +13,60 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Dio dio;
+  UserService service = UserService();
+  List<User> userList = [];
+  bool hasMoreData = true;
+  bool isLoading = false;
+  late ScrollController _controller;
+  int _currentPage = 1;
+
+  final int _pageLimit = 10;
   @override
   void initState() {
     super.initState();
-    dio = Dio();
+    fetchUsers();
+    _controller = ScrollController();
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        loadMoreData();
+      }
+    });
   }
+
+  fetchUsers() async {
+    try {
+      userList = await service.fetchUsers(_currentPage, _pageLimit);
+    } catch (e) {
+      log("Hata : " + e.toString());
+    }
+    setState(() {});
+  }
+
+  void loadMoreData() async {
+    if (!hasMoreData) {
+      setState(() {});
+      return;
+    }
+    if (isLoading) {
+      return;
+    }
+    _currentPage += 1;
+    log("CurrentPage : $_currentPage");
+    isLoading = true;
+    log("hasMore true Veri geldi");
+    userList.addAll(await service.fetchUsers(_currentPage, _pageLimit));
+    setState(() {
+      isLoading = false;
+    });
+    if ((await service.fetchUsers(_currentPage, _pageLimit)).length <
+        _pageLimit) {
+      log("hasrMore False");
+      hasMoreData = false;
+      return;
+    }
+  }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -26,37 +74,32 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(),
       body: Column(
         children: <Widget>[
-          TextButton(
-            onPressed: () async {
-              final responseBody =
-                  await dio.get("http://192.168.1.22:3000/getApi/Users");
-              var list = (responseBody.data as List)
-                  .map((user) => User.fromJson(user))
-                  .cast<User>()
-                  .toList();
-              log(list.length.toString());
-            },
-            child: Text("Fetch Users",
-                style: Theme.of(context).textTheme.headline2),
-          )
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              controller: _controller,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  if (index == userList.length) {
+                    return const CupertinoActivityIndicator();
+                  }
+                  var user = userList[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                        leading: Text(user.userId.toString()),
+                        title: Text(user.email ?? "email")),
+                  );
+                },
+                itemCount: hasMoreData ? userList.length + 1 : userList.length,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
-// class User {
-//   final int? userId;
-//   final String? picture;
-
-//   const User({this.userId, this.picture});
-//   factory User.fromJson(Map<String, dynamic>? json) {
-//     if (json != null) {
-//       return User(userId: json['userId'], picture: json['picture']);
-//     }
-//     return const User();
-//   }
-//   Map<String, dynamic> toJson() {
-//     return {"userId": userId, "picture": picture};
-//   }
-// }

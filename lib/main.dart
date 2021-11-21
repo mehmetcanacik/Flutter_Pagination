@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:user_pagination/core/model/user_model/user_model.dart';
+import 'package:user_pagination/core/service/user_service.dart';
 import 'package:user_pagination/home_page.dart';
 
 void main() {
@@ -11,7 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'User Pagination',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

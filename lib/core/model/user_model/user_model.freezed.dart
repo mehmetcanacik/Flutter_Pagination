@@ -24,11 +24,19 @@ class _$UserTearOff {
   _User call(
       {int userId = 0,
       @JsonKey(name: "picture") String? userAvatar,
-      @JsonKey(name: "name") required UserName name}) {
+      @JsonKey(name: "name") required UserName name,
+      required bool isActive,
+      String? email,
+      required int age,
+      String? company}) {
     return _User(
       userId: userId,
       userAvatar: userAvatar,
       name: name,
+      isActive: isActive,
+      email: email,
+      age: age,
+      company: company,
     );
   }
 
@@ -47,6 +55,10 @@ mixin _$User {
   String? get userAvatar => throw _privateConstructorUsedError;
   @JsonKey(name: "name")
   UserName get name => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  int get age => throw _privateConstructorUsedError;
+  String? get company => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +72,11 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {int userId,
       @JsonKey(name: "picture") String? userAvatar,
-      @JsonKey(name: "name") UserName name});
+      @JsonKey(name: "name") UserName name,
+      bool isActive,
+      String? email,
+      int age,
+      String? company});
 }
 
 /// @nodoc
@@ -76,6 +92,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? userId = freezed,
     Object? userAvatar = freezed,
     Object? name = freezed,
+    Object? isActive = freezed,
+    Object? email = freezed,
+    Object? age = freezed,
+    Object? company = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
@@ -90,6 +110,22 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as UserName,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      age: age == freezed
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
+      company: company == freezed
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -102,7 +138,11 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {int userId,
       @JsonKey(name: "picture") String? userAvatar,
-      @JsonKey(name: "name") UserName name});
+      @JsonKey(name: "name") UserName name,
+      bool isActive,
+      String? email,
+      int age,
+      String? company});
 }
 
 /// @nodoc
@@ -119,6 +159,10 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? userAvatar = freezed,
     Object? name = freezed,
+    Object? isActive = freezed,
+    Object? email = freezed,
+    Object? age = freezed,
+    Object? company = freezed,
   }) {
     return _then(_User(
       userId: userId == freezed
@@ -133,6 +177,22 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as UserName,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      age: age == freezed
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
+      company: company == freezed
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -143,7 +203,11 @@ class _$_User implements _User {
   const _$_User(
       {this.userId = 0,
       @JsonKey(name: "picture") this.userAvatar,
-      @JsonKey(name: "name") required this.name});
+      @JsonKey(name: "name") required this.name,
+      required this.isActive,
+      this.email,
+      required this.age,
+      this.company});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -156,10 +220,18 @@ class _$_User implements _User {
   @override
   @JsonKey(name: "name")
   final UserName name;
+  @override
+  final bool isActive;
+  @override
+  final String? email;
+  @override
+  final int age;
+  @override
+  final String? company;
 
   @override
   String toString() {
-    return 'User(userId: $userId, userAvatar: $userAvatar, name: $name)';
+    return 'User(userId: $userId, userAvatar: $userAvatar, name: $name, isActive: $isActive, email: $email, age: $age, company: $company)';
   }
 
   @override
@@ -170,11 +242,17 @@ class _$_User implements _User {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.userAvatar, userAvatar) ||
                 other.userAvatar == userAvatar) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.company, company) || other.company == company));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userId, userAvatar, name);
+  int get hashCode => Object.hash(
+      runtimeType, userId, userAvatar, name, isActive, email, age, company);
 
   @JsonKey(ignore: true)
   @override
@@ -191,7 +269,11 @@ abstract class _User implements User {
   const factory _User(
       {int userId,
       @JsonKey(name: "picture") String? userAvatar,
-      @JsonKey(name: "name") required UserName name}) = _$_User;
+      @JsonKey(name: "name") required UserName name,
+      required bool isActive,
+      String? email,
+      required int age,
+      String? company}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -203,6 +285,14 @@ abstract class _User implements User {
   @override
   @JsonKey(name: "name")
   UserName get name;
+  @override
+  bool get isActive;
+  @override
+  String? get email;
+  @override
+  int get age;
+  @override
+  String? get company;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;
