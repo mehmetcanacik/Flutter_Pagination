@@ -3,9 +3,11 @@
 Bu uygulama bir web service üzerinden gelen kullanıcıları 
 sayfalama yaparak listeleyen bir flutter projesidir
 
-[Screen1](assets/images/ss_1.png)
+### Screenshots
 
-[Screen2](assets/images/ss_2.png)
+<img src="assets/images/ss_1.png" height="600em">
+<img src="assets/images/ss_2.png" height="600em">
+
 
 Uygulamada kullanılan paketler
 
